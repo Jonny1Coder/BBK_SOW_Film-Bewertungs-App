@@ -11,17 +11,18 @@
     titel: 'Inception',
     beschreibung: 'Ein Dieb, der Firmengeheimnisse durch den Einsatz von Traum-Sharing-Technologie stiehlt, erhält die umgekehrte Aufgabe, eine Idee in das Unterbewusstsein eines CEO zu pflanzen.',
     genre: genres[0],
-    bewertung: 5
+    bewertung: 4
   },
   {
     titel: 'Der Pate',
     beschreibung: 'Der alternde Patriarch einer organisierten Kriminaldynastie überträgt die Kontrolle über sein geheimes Imperium an seinen widerspenstigen Sohn.',
     genre: genres[1],
-    bewertung: 5
+    bewertung: 6
   }];
-  let filteredFilme = [...filme];
+  $: filteredFilme = [...filme];
   let activeGenre = "Alle";
-  
+  let averageEvaluation = filme.reduce((acc, val) => acc + val.bewertung, 0) / filme.length;
+
   let neuerFilm = {
     titel: '',
     beschreibung: '',
@@ -30,6 +31,11 @@
   };
 
   function addFilm() {
+    if (neuerFilm.bewertung < 1 || neuerFilm.bewertung > 10 || !Number.isInteger(neuerFilm.bewertung)) {
+      alert("Bitte geben Sie eine Ganzzahl zwischen 1 und 10 ein.");
+      return;
+    }
+
     filme = [...filme, {...neuerFilm}];
     resetNewFilmForm();
     console.log(filme);
@@ -60,9 +66,10 @@
         <option value="{genre}">{genre}</option>
       {/each}
     </select><br>
-    <input type="number" placeholder="Bewertung" bind:value={neuerFilm.bewertung}><br>
+    <input type="number" placeholder="Bewertung (1-10)" bind:value={neuerFilm.bewertung}><br>
     <button on:click|preventDefault={addFilm}>Film hinzufügen</button>
   </form>
+  Durchschnittsbewertung aller Filme: {averageEvaluation}
 
   <nav>
     <button class:active={activeGenre === "Alle"} on:click={() => setActive("Alle")}>Alle</button>
