@@ -67,3 +67,82 @@ function addFilm() {
   if (e.key === 'Enter') submitForm();
 }}>
 ```
+## 🎬 Projekt-Aufgabe: Film-Bewertungs-App - Teil 2 (55 Minuten)
+
+**Weiterführung aus Kurs 03**
+
+Erweitere deine Film-App mit Conditionals und Loops:
+
+### Neue Features:
+
+1. **Filter-Funktionen**:
+   - Buttons: "Alle", "Action", "Komödie", "Drama", "Sci-Fi", "Horror"
+   - Zeige nur Filme des ausgewählten Genres
+   - Nutze `{#if filteredFilme.length === 0}` für "Keine Filme gefunden"
+
+2. **Bewertungs-Anzeige**:
+   - Zeige Sterne mit Loop:
+   ```javascript
+   {#each Array(film.bewertung) as _, i}
+     ⭐
+   {/each}
+   ```
+   - Zeige Durchschnittsbewertung aller Filme
+
+3. **Sortierung**:
+   - Dropdown: "Nach Titel", "Nach Bewertung"
+   - Sortiere Filme entsprechend
+
+4. **Empty State**:
+   - Wenn keine Filme vorhanden: Zeige Hinweis mit Icon
+
+**Code-Struktur**:
+```javascript
+let filme = [];
+let selectedGenre = 'Alle';
+let sortBy = 'titel';
+
+$: filteredFilme = selectedGenre === 'Alle' 
+  ? filme 
+  : filme.filter(f => f.genre === selectedGenre);
+
+$: sortedFilme = [...filteredFilme].sort((a, b) => {
+  if (sortBy === 'bewertung') return b.bewertung - a.bewertung;
+  return a.titel.localeCompare(b.titel);
+});
+
+$: durchschnitt = filme.length > 0
+  ? (filme.reduce((sum, f) => sum + f.bewertung, 0) / filme.length).toFixed(1)
+  : 0;
+```
+
+**Erwartetes Ergebnis**:
+- Filter nach Genre funktioniert
+- Sortierung funktioniert
+- Durchschnittsbewertung wird berechnet
+- Empty State wird angezeigt
+
+**Weiterführung**: In Kurs 05 (Stores) werden wir die Film-Daten in einen Store auslagern!
+
+---
+
+## Tipps
+
+**Each mit Index**:
+```html
+{#each items as item, index}
+  <p>{index + 1}. {item}</p>
+{/each}
+```
+
+**Each mit Key**:
+```html
+{#each items as item (item.id)}
+  <div>{item.name}</div>
+{/each}
+```
+
+**Reactive Statements**:
+```javascript
+$: filtered = items.filter(i => i.active);
+```

@@ -7,7 +7,7 @@
     "Horror",
   ];
 
-let filme = [{
+  let filme = [{
     titel: 'Inception',
     beschreibung: 'Ein Dieb, der Firmengeheimnisse durch den Einsatz von Traum-Sharing-Technologie stiehlt, erhält die umgekehrte Aufgabe, eine Idee in das Unterbewusstsein eines CEO zu pflanzen.',
     genre: genres[0],
@@ -19,6 +19,8 @@ let filme = [{
     genre: genres[1],
     bewertung: 5
   }];
+  let filteredFilme = [...filme];
+  let activeGenre = "Alle";
   
   let neuerFilm = {
     titel: '',
@@ -38,6 +40,14 @@ let filme = [{
     neuerFilm.genre = "";
     neuerFilm.bewertung = null;
   }
+  function setActive(genre) {
+    activeGenre = genre;
+    if (activeGenre === "Alle") {
+      filteredFilme = [...filme];
+    } else {
+      filteredFilme = filme.filter(f => f.genre == activeGenre);
+    }
+  }
 </script>
 
 <main>
@@ -54,7 +64,18 @@ let filme = [{
     <button on:click|preventDefault={addFilm}>Film hinzufügen</button>
   </form>
 
-  {#each filme as film}
+  <nav>
+    <button class:active={activeGenre === "Alle"} on:click={() => setActive("Alle")}>Alle</button>
+    {#each genres as genre}
+      <button class:active={activeGenre === genre} on:click={() => setActive(genre)}>{genre}</button>
+    {/each}
+  </nav>
+
+  {#if filteredFilme.length === 0}
+  <span class="error">Keine Filme gefunden</span>
+  {/if}
+
+  {#each filteredFilme as film}
     <div>
       <h3>{film.titel} ({film.genre})</h3>
       <span>
@@ -68,6 +89,9 @@ let filme = [{
 </main>
 
 <style>
+  :root {
+    --accent-color: #845ec2;
+  }
   textarea,input,select,button{
     width: 15em;
     margin: 0;
@@ -78,5 +102,22 @@ let filme = [{
   }
   p{
     max-width: 50em;
+  }
+  nav{
+    margin: 1em;
+  }
+  nav button{
+    width: 8em;
+    padding: 0.2em;
+    margin: 0.1em;
+  }
+  nav button.active {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: white;
+    font-weight: bold;
+  }
+  .error{
+    color: red;
   }
 </style>
