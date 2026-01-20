@@ -19,9 +19,22 @@
     genre: genres[1],
     bewertung: 6
   }];
-  $: filteredFilme = [...filme];
-  let activeGenre = "Alle";
-  let averageEvaluation = filme.reduce((acc, val) => acc + val.bewertung, 0) / filme.length;
+
+let selectedGenre = 'Alle';
+let sortBy = 'titel';
+
+$: filteredFilme = selectedGenre === 'Alle' 
+  ? filme 
+  : filme.filter(f => f.genre === selectedGenre);
+
+$: sortedFilme = [...filteredFilme].sort((a, b) => {
+  if (sortBy === 'bewertung') return b.bewertung - a.bewertung;
+  return a.titel.localeCompare(b.titel);
+});
+
+$: durchschnitt = filme.length > 0
+  ? (filme.reduce((sum, f) => sum + f.bewertung, 0) / filme.length).toFixed(1)
+  : 0;
 
   let neuerFilm = {
     titel: '',
@@ -47,11 +60,11 @@
     neuerFilm.bewertung = null;
   }
   function setActive(genre) {
-    activeGenre = genre;
-    if (activeGenre === "Alle") {
+    selectedGenre = genre;
+    if (selectedGenre === "Alle") {
       filteredFilme = [...filme];
     } else {
-      filteredFilme = filme.filter(f => f.genre == activeGenre);
+      filteredFilme = filme.filter(f => f.genre == selectedGenre);
     }
   }
 </script>
@@ -69,30 +82,37 @@
     <input type="number" placeholder="Bewertung (1-10)" bind:value={neuerFilm.bewertung}><br>
     <button on:click|preventDefault={addFilm}>Film hinzufügen</button>
   </form>
-  Durchschnittsbewertung aller Filme: {averageEvaluation}
+  Durchschnittsbewertung aller Filme: {durchschnitt}
 
   <nav>
-    <button class:active={activeGenre === "Alle"} on:click={() => setActive("Alle")}>Alle</button>
+    <button class:active={selectedGenre === "Alle"} on:click={() => setActive("Alle")}>Alle</button>
     {#each genres as genre}
-      <button class:active={activeGenre === genre} on:click={() => setActive(genre)}>{genre}</button>
+      <button class:active={selectedGenre === genre} on:click={() => setActive(genre)}>{genre}</button>
     {/each}
+    <select>
+      <option value="titel">Nach Titel</option>
+      <option value="description">Nach Bewertung</option>
+    </select>
   </nav>
 
   {#if filteredFilme.length === 0}
   <span class="error">Keine Filme gefunden</span>
   {/if}
 
-  {#each filteredFilme as film}
-    <div>
-      <h3>{film.titel} ({film.genre})</h3>
-      <span>
-        {#each Array(film.bewertung) as _}
-          ⭐
-        {/each}
-      </span>
-      <p>{film.beschreibung}</p>
-    </div>
-  {/each}
+  <div id="filme">
+    {#each filteredFilme as film}
+      <div>
+        <h3>{film.titel} ({film.genre})</h3>
+        <span>
+          {#each Array(film.bewertung) as _}
+            ⭐
+          {/each}
+        </span>
+        <p>{film.beschreibung}</p>
+      </div>
+    {/each}
+  </div>
+
 </main>
 
 <style>
