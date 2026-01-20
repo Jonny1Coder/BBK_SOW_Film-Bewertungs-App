@@ -89,9 +89,9 @@ $: durchschnitt = filme.length > 0
     {#each genres as genre}
       <button class:active={selectedGenre === genre} on:click={() => setActive(genre)}>{genre}</button>
     {/each}
-    <select>
+    <select bind:value={sortBy}>
       <option value="titel">Nach Titel</option>
-      <option value="description">Nach Bewertung</option>
+      <option value="bewertung">Nach Bewertung</option>
     </select>
   </nav>
 
@@ -100,7 +100,7 @@ $: durchschnitt = filme.length > 0
   {/if}
 
   <div id="filme">
-    {#each filteredFilme as film}
+    {#each sortedFilme as film}
       <div>
         <h3>{film.titel} ({film.genre})</h3>
         <span>
