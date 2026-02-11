@@ -10,13 +10,14 @@
   ];
 
   filme.add({
-            id: $filme.length,
-            titel: 'Inception',
-            beschreibung: 'Ein Dieb, der Firmengeheimnisse durch den Einsatz von Traum-Sharing-Technologie stiehlt, erhält die umgekehrte Aufgabe, eine Idee in das Unterbewusstsein eines CEO zu pflanzen.',
-            genre: genres[0],
-            bewertung: 4
-          });
+    id: $filme.length,
+    titel: 'Inception',
+    beschreibung: 'Ein Dieb, der Firmengeheimnisse durch den Einsatz von Traum-Sharing-Technologie stiehlt, erhält die umgekehrte Aufgabe, eine Idee in das Unterbewusstsein eines CEO zu pflanzen.',
+    genre: genres[0],
+    bewertung: 4
+  });
   filme.add({
+    id: $filme.length,
     titel: 'Der Pate',
     beschreibung: 'Der alternde Patriarch einer organisierten Kriminaldynastie überträgt die Kontrolle über sein geheimes Imperium an seinen widerspenstigen Sohn.',
     genre: genres[1],
@@ -42,6 +43,7 @@
     : 0;
 
   let neuerFilm = {
+    id: $filme.length,
     titel: '',
     beschreibung: '',
     genre: genres[0],
@@ -66,6 +68,9 @@
   }
   function setActive(genre) {
     selectedGenre = genre;
+  }
+  function clearFilm() {
+    filme.clear();
   }
 </script>
 
@@ -112,6 +117,7 @@
       </div>
     {/each}
   </div>
+  <button on:click={ () => clearFilm()}>Alle Löschen</button>
 
 </main>
 
