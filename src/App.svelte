@@ -1,4 +1,6 @@
 <script>
+  import { filme } from './stores/filmStore.js';
+
   let genres = [
     "Action",
     "Komödie",
@@ -7,34 +9,37 @@
     "Horror",
   ];
 
-  let filme = [{
-    titel: 'Inception',
-    beschreibung: 'Ein Dieb, der Firmengeheimnisse durch den Einsatz von Traum-Sharing-Technologie stiehlt, erhält die umgekehrte Aufgabe, eine Idee in das Unterbewusstsein eines CEO zu pflanzen.',
-    genre: genres[0],
-    bewertung: 4
-  },
-  {
+  filme.add({
+            id: $filme.length,
+            titel: 'Inception',
+            beschreibung: 'Ein Dieb, der Firmengeheimnisse durch den Einsatz von Traum-Sharing-Technologie stiehlt, erhält die umgekehrte Aufgabe, eine Idee in das Unterbewusstsein eines CEO zu pflanzen.',
+            genre: genres[0],
+            bewertung: 4
+          });
+  filme.add({
     titel: 'Der Pate',
     beschreibung: 'Der alternde Patriarch einer organisierten Kriminaldynastie überträgt die Kontrolle über sein geheimes Imperium an seinen widerspenstigen Sohn.',
     genre: genres[1],
     bewertung: 6
-  }];
+  });
 
-let selectedGenre = 'Alle';
-let sortBy = 'titel';
+  let selectedGenre = 'Alle';
+  let sortBy = 'titel';
 
-$: filteredFilme = selectedGenre === 'Alle' 
-  ? filme 
-  : filme.filter(f => f.genre === selectedGenre);
+  $: filteredFilme = selectedGenre === 'Alle'
+    ? $filme
+    : $filme.filter(f => f.genre === selectedGenre);
 
-$: sortedFilme = [...filteredFilme].sort((a, b) => {
-  if (sortBy === 'bewertung') return b.bewertung - a.bewertung;
-  return a.titel.localeCompare(b.titel);
-});
+  $: sortedFilme = [...filteredFilme].sort((a, b) => {
+    if (sortBy === 'bewertung') return (Number(b?.bewertung) || 0) - (Number(a?.bewertung) || 0);
+    const at = (a?.titel ?? '').toString();
+    const bt = (b?.titel ?? '').toString();
+    return at.localeCompare(bt);
+  });
 
-$: durchschnitt = filme.length > 0
-  ? (filme.reduce((sum, f) => sum + f.bewertung, 0) / filme.length).toFixed(1)
-  : 0;
+  $: durchschnitt = $filme.length > 0
+    ? ($filme.reduce((sum, f) => sum + (Number(f.bewertung) || 0), 0) / $filme.length).toFixed(1)
+    : 0;
 
   let neuerFilm = {
     titel: '',
@@ -49,23 +54,18 @@ $: durchschnitt = filme.length > 0
       return;
     }
 
-    filme = [...filme, {...neuerFilm}];
+    filme.add(neuerFilm);
     resetNewFilmForm();
-    console.log(filme);
+    console.log($filme);
   }
   function resetNewFilmForm() {
     neuerFilm.titel = "";
     neuerFilm.beschreibung = "";
-    neuerFilm.genre = "";
+    neuerFilm.genre = genres[0];
     neuerFilm.bewertung = null;
   }
   function setActive(genre) {
     selectedGenre = genre;
-    if (selectedGenre === "Alle") {
-      filteredFilme = [...filme];
-    } else {
-      filteredFilme = filme.filter(f => f.genre == selectedGenre);
-    }
   }
 </script>
 

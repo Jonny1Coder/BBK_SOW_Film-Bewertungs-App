@@ -146,3 +146,118 @@ $: durchschnitt = filme.length > 0
 ```javascript
 $: filtered = items.filter(i => i.active);
 ```
+
+## 🎬 Projekt-Aufgabe: Film-Bewertungs-App - Teil 3 (45 Minuten)
+
+**Weiterführung aus Kurs 04**
+
+Lagere die Film-Daten in Stores aus:
+
+### Neue Datei: `src/stores/filmStore.js`
+
+```javascript
+import { writable, derived } from 'svelte/store';
+
+function createFilmStore() {
+  const { subscribe, set, update } = writable([]);
+  
+  return {
+    subscribe,
+    add: (film) => update(filme => [...filme, { 
+      ...film, 
+      id: Date.now() 
+    }]),
+    remove: (id) => update(filme => filme.filter(f => f.id !== id)),
+    update: (id, updatedFilm) => update(filme => 
+      filme.map(f => f.id === id ? { ...f, ...updatedFilm } : f)
+    ),
+    clear: () => set([])
+  };
+}
+
+export const filme = createFilmStore();
+
+// Derived Stores
+export const durchschnittsBewertung = derived(filme, $filme => {
+  if ($filme.length === 0) return 0;
+  const sum = $filme.reduce((acc, f) => acc + f.bewertung, 0);
+  return (sum / $filme.length).toFixed(1);
+});
+
+export const genreStats = derived(filme, $filme => {
+  const stats = {};
+  $filme.forEach(f => {
+    stats[f.genre] = (stats[f.genre] || 0) + 1;
+  });
+  return stats;
+});
+
+export const topFilme = derived(filme, $filme => 
+  [...$filme]
+    .sort((a, b) => b.bewertung - a.bewertung)
+    .slice(0, 3)
+);
+```
+
+### Neue Features:
+
+1. **Store Integration**:
+   - Ersetze das lokale `filme` Array durch `$filme` Store
+   - Nutze `filme.add()` statt direkter Array-Manipulation
+   - Nutze `filme.remove()` für Lösch-Funktion
+
+2. **Statistik-Dashboard**:
+   - Zeige Durchschnittsbewertung: `{$durchschnittsBewertung}⭐`
+   - Zeige Anzahl Filme pro Genre
+   - Zeige Top 3 Filme
+
+3. **Bearbeiten-Funktion**:
+   - Button "Bearbeiten" bei jedem Film
+   - Formular wird mit Film-Daten gefüllt
+   - Beim Speichern: `filme.update(id, updatedData)`
+
+4. **Löschen-Funktion**:
+   - Button "Löschen" bei jedem Film
+   - Bestätigungs-Dialog (window.confirm)
+
+**Komponenten-Struktur**:
+```
+src/
+├── App.svelte (Hauptkomponente)
+├── stores/
+│   └── filmStore.js
+└── components/
+    ├── FilmForm.svelte (Formular)
+    ├── FilmList.svelte (Liste)
+    ├── FilmCard.svelte (Einzelner Film)
+    └── Stats.svelte (Statistiken)
+```
+
+**Erwartetes Ergebnis**:
+- Filme werden im Store verwaltet
+- Statistiken werden automatisch berechnet
+- Bearbeiten und Löschen funktioniert
+- Code ist modular und wartbar
+
+**Weiterführung**: In Kurs 06 (Lifecycle & Slots) werden wir LocalStorage Integration hinzufügen!
+
+---
+
+## Tipps
+
+**Store nutzen**:
+```javascript
+import { myStore } from './stores.js';
+
+// Lesen
+$: value = $myStore;
+
+// Schreiben
+myStore.set(newValue);
+myStore.update(old => old + 1);
+```
+
+**Derived Store**:
+```javascript
+export const doubled = derived(count, $count => $count * 2);
+```
