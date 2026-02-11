@@ -1,6 +1,5 @@
 <script>
-  import { filme } from './stores/filmStore.js';
-
+  import { filme, durchschnittsBewertung, genreStats, topFilme } from './stores/filmStore.js';
   let genres = [
     "Action",
     "Komödie",
@@ -37,10 +36,6 @@
     const bt = (b?.titel ?? '').toString();
     return at.localeCompare(bt);
   });
-
-  $: durchschnitt = $filme.length > 0
-    ? ($filme.reduce((sum, f) => sum + (Number(f.bewertung) || 0), 0) / $filme.length).toFixed(1)
-    : 0;
 
   let neuerFilm = {
     id: $filme.length,
@@ -87,7 +82,6 @@
     <input type="number" placeholder="Bewertung (1-10)" bind:value={neuerFilm.bewertung}><br>
     <button on:click|preventDefault={addFilm}>Film hinzufügen</button>
   </form>
-  Durchschnittsbewertung aller Filme: {durchschnitt}
 
   <nav>
     <button class:active={selectedGenre === "Alle"} on:click={() => setActive("Alle")}>Alle</button>
@@ -118,6 +112,28 @@
     {/each}
   </div>
   <button on:click={ () => clearFilm()}>Alle Löschen</button>
+  <hr>
+  <div>
+    <h2>Statistiken</h2>
+    Durchschnittsbewertung:
+    {#each Array(Math.round(Number($durchschnittsBewertung))) as _}
+      ⭐
+    {/each}
+    <br>
+    Anzahl Filme pro Genre
+    <div>
+    {#each genres as genre}
+      {genre}: {($genreStats[genre] ?? 0)}<br>
+    {/each}
+    </div>
+    <br>
+    Top 3 Filme:
+    <div>
+      {#each $topFilme as film }
+        {film.titel} ({film.genre})<br>
+      {/each}
+    </div>
+  </div>
 
 </main>
 
