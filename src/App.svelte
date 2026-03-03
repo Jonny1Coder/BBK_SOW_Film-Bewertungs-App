@@ -3,23 +3,8 @@
 
   import FilmForm from "./components/FilmForm.svelte";
   import FilmList from "./components/FilmList.svelte";
-  import FilmCard from "./components/FilmCard.svelte";
   import Stats from "./components/Stats.svelte";
 
-  filme.add({
-    id: $filme.length,
-    titel: 'Inception',
-    beschreibung: 'Ein Dieb, der Firmengeheimnisse durch den Einsatz von Traum-Sharing-Technologie stiehlt, erhält die umgekehrte Aufgabe, eine Idee in das Unterbewusstsein eines CEO zu pflanzen.',
-    genre: genres[0],
-    bewertung: 4
-  });
-  filme.add({
-    id: $filme.length,
-    titel: 'Der Pate',
-    beschreibung: 'Der alternde Patriarch einer organisierten Kriminaldynastie überträgt die Kontrolle über sein geheimes Imperium an seinen widerspenstigen Sohn.',
-    genre: genres[1],
-    bewertung: 6
-  });
 
   let selectedGenre = 'Alle';
   let sortBy = 'titel';
