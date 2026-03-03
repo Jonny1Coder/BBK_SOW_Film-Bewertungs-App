@@ -2,6 +2,7 @@
   import { filme, genres } from './stores/filmStore.js';
 
   import FilmForm from "./components/FilmForm.svelte";
+  import FilmList from "./components/FilmList.svelte";
   import FilmCard from "./components/FilmCard.svelte";
   import Stats from "./components/Stats.svelte";
 
@@ -37,9 +38,6 @@
   function setActive(genre) {
     selectedGenre = genre;
   }
-  function clearFilm() {
-    filme.clear();
-  }
 </script>
 
 <main>
@@ -60,12 +58,7 @@
   <span class="error">Keine Filme gefunden</span>
   {/if}
 
-  <div id="filme">
-    {#each sortedFilme as film}
-      <FilmCard {film} />
-    {/each}
-  </div>
-  <button on:click={ () => clearFilm()}>Alle Löschen</button>
+  <FilmList films={sortedFilme} />
   <hr>
   <Stats />
 </main>
