@@ -1,12 +1,7 @@
 <script>
-  import { filme, durchschnittsBewertung, genreStats, topFilme } from './stores/filmStore.js';
-  let genres = [
-    "Action",
-    "Komödie",
-    "Drama",
-    "Sci-Fi",
-    "Horror",
-  ];
+  import { filme, durchschnittsBewertung, genreStats, topFilme, genres } from './stores/filmStore.js';
+
+  import FilmForm from "./components/FilmForm.svelte";
 
   filme.add({
     id: $filme.length,
@@ -37,30 +32,6 @@
     return at.localeCompare(bt);
   });
 
-  let neuerFilm = {
-    id: $filme.length,
-    titel: '',
-    beschreibung: '',
-    genre: genres[0],
-    bewertung: null
-  };
-
-  function addFilm() {
-    if (neuerFilm.bewertung < 1 || neuerFilm.bewertung > 10 || !Number.isInteger(neuerFilm.bewertung)) {
-      alert("Bitte geben Sie eine Ganzzahl zwischen 1 und 10 ein.");
-      return;
-    }
-
-    filme.add(neuerFilm);
-    resetNewFilmForm();
-    console.log($filme);
-  }
-  function resetNewFilmForm() {
-    neuerFilm.titel = "";
-    neuerFilm.beschreibung = "";
-    neuerFilm.genre = genres[0];
-    neuerFilm.bewertung = null;
-  }
   function setActive(genre) {
     selectedGenre = genre;
   }
@@ -70,18 +41,7 @@
 </script>
 
 <main>
-  <h2>Neuen Film anlegen</h2>
-  <form>
-    <input type="text" placeholder="Film Titel" bind:value={neuerFilm.titel}><br>
-    <textarea placeholder="Beschreibung" bind:value={neuerFilm.beschreibung}></textarea><br>
-    <select bind:value={neuerFilm.genre}>
-      {#each genres as genre}
-        <option value="{genre}">{genre}</option>
-      {/each}
-    </select><br>
-    <input type="number" placeholder="Bewertung (1-10)" bind:value={neuerFilm.bewertung}><br>
-    <button on:click|preventDefault={addFilm}>Film hinzufügen</button>
-  </form>
+  <FilmForm />
 
   <nav>
     <button class:active={selectedGenre === "Alle"} on:click={() => setActive("Alle")}>Alle</button>
@@ -141,7 +101,7 @@
   :root {
     --accent-color: #845ec2;
   }
-  textarea,input,select,button{
+  select,button{
     width: 15em;
     margin: 0;
     padding: 0;

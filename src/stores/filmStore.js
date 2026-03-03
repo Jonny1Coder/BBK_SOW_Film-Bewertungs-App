@@ -39,3 +39,11 @@ export const topFilme = derived(filme, $filme =>
         .sort((a, b) => b.bewertung - a.bewertung)
         .slice(0, 3)
 );
+
+export const genres = [
+    "Action",
+    "Komödie",
+    "Drama",
+    "Sci-Fi",
+    "Horror",
+];
