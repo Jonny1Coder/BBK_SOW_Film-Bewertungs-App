@@ -2,6 +2,7 @@
   import { filme, genres } from './stores/filmStore.js';
 
   import FilmForm from "./components/FilmForm.svelte";
+  import FilmCard from "./components/FilmCard.svelte";
   import Stats from "./components/Stats.svelte";
 
   filme.add({
@@ -61,15 +62,7 @@
 
   <div id="filme">
     {#each sortedFilme as film}
-      <div>
-        <h3>{film.titel} ({film.genre})</h3>
-        <span>
-          {#each Array(film.bewertung) as _}
-            ⭐
-          {/each}
-        </span>
-        <p>{film.beschreibung}</p>
-      </div>
+      <FilmCard {film} />
     {/each}
   </div>
   <button on:click={ () => clearFilm()}>Alle Löschen</button>
