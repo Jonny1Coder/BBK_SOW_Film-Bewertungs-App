@@ -1,7 +1,8 @@
 <script>
-  import { filme, durchschnittsBewertung, genreStats, topFilme, genres } from './stores/filmStore.js';
+  import { filme, genres } from './stores/filmStore.js';
 
   import FilmForm from "./components/FilmForm.svelte";
+  import Stats from "./components/Stats.svelte";
 
   filme.add({
     id: $filme.length,
@@ -73,28 +74,7 @@
   </div>
   <button on:click={ () => clearFilm()}>Alle Löschen</button>
   <hr>
-  <div>
-    <h2>Statistiken</h2>
-    Durchschnittsbewertung:
-    {#each Array(Math.round(Number($durchschnittsBewertung))) as _}
-      ⭐
-    {/each}
-    <br>
-    Anzahl Filme pro Genre
-    <div>
-    {#each genres as genre}
-      {genre}: {($genreStats[genre] ?? 0)}<br>
-    {/each}
-    </div>
-    <br>
-    Top 3 Filme:
-    <div>
-      {#each $topFilme as film }
-        {film.titel} ({film.genre})<br>
-      {/each}
-    </div>
-  </div>
-
+  <Stats />
 </main>
 
 <style>
