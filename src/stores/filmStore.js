@@ -9,6 +9,7 @@ function createFilmStore() {
             ...film,
             id: Date.now()
         }]),
+        set,
         remove: (id) => update(filme => filme.filter(f => f.id !== id)),
         update: (id, updatedFilm) => update(filme =>
             filme.map(f => f.id === id ? { ...f, ...updatedFilm } : f)
@@ -19,7 +20,6 @@ function createFilmStore() {
 
 export const filme = createFilmStore();
 
-// Derived Stores
 export const durchschnittsBewertung = derived(filme, $filme => {
     if ($filme.length === 0) return 0;
     const sum = $filme.reduce((acc, f) => acc + f.bewertung, 0);

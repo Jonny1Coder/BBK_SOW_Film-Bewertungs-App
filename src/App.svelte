@@ -1,10 +1,32 @@
 <script>
   import { filme, genres } from './stores/filmStore.js';
+  import { onMount } from 'svelte';
 
   import FilmForm from "./components/FilmForm.svelte";
   import FilmList from "./components/FilmList.svelte";
   import Stats from "./components/Stats.svelte";
 
+  onMount(() => {
+    try {
+      const filmeFromLocalStorage = window.localStorage.getItem("filme");
+      if (filmeFromLocalStorage !== null) {
+        const parsed = JSON.parse(filmeFromLocalStorage);
+        if (Array.isArray(parsed)) {
+          filme.set(parsed);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to read filme from localStorage', e);
+    }
+
+    return filme.subscribe(current => {
+      try {
+        window.localStorage.setItem('filme', JSON.stringify(current));
+      } catch (e) {
+        console.error('Failed to save filme to localStorage', e);
+      }
+    });
+  });
 
   let selectedGenre = 'Alle';
   let sortBy = 'titel';
