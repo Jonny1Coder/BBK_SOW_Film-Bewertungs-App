@@ -1,12 +1,38 @@
 <script>
   import { filme, genres } from './stores/filmStore.js';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 
   import FilmForm from "./components/FilmForm.svelte";
   import FilmList from "./components/FilmList.svelte";
   import Stats from "./components/Stats.svelte";
 
+  let lastUpdate = new Date();
+  let interval;
+
   onMount(() => {
+    // get init Data
+    loadFilmeFromLocalStorage();
+
+    interval = setInterval(() => {
+      lastUpdate = new Date();
+      console.log(lastUpdate);
+      loadFilmeFromLocalStorage();
+    }, 60000);
+
+    return filme.subscribe(current => {
+      try {
+        window.localStorage.setItem('filme', JSON.stringify(current));
+      } catch (e) {
+        console.error('Failed to save filme to localStorage', e);
+      }
+    });
+  });
+
+  onDestroy(() => {
+    clearInterval(interval);
+  });
+
+  function loadFilmeFromLocalStorage() {
     try {
       const filmeFromLocalStorage = window.localStorage.getItem("filme");
       if (filmeFromLocalStorage !== null) {
@@ -18,15 +44,7 @@
     } catch (e) {
       console.error('Failed to read filme from localStorage', e);
     }
-
-    return filme.subscribe(current => {
-      try {
-        window.localStorage.setItem('filme', JSON.stringify(current));
-      } catch (e) {
-        console.error('Failed to save filme to localStorage', e);
-      }
-    });
-  });
+  }
 
   let selectedGenre = 'Alle';
   let sortBy = 'titel';
