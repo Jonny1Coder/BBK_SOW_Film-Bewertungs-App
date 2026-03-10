@@ -5,6 +5,7 @@
   import FilmForm from "./components/FilmForm.svelte";
   import FilmList from "./components/FilmList.svelte";
   import Stats from "./components/Stats.svelte";
+  import Header from "./components/Layout/Header.svelte";
 
   let lastUpdate = new Date();
   let interval;
@@ -66,6 +67,7 @@
 </script>
 
 <main>
+  <Header lastUpdate="{lastUpdate}" />
   <FilmForm />
 
   <nav>
