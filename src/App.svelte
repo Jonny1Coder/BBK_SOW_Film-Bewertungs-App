@@ -67,7 +67,11 @@
 </script>
 
 <main>
-  <Header lastUpdate="{lastUpdate}" />
+  <Header
+          lastUpdate="{lastUpdate}"
+          pathToLogo="vite.svg"
+          titel="Filme"
+  />
   <FilmForm />
 
   <nav>
