@@ -3,14 +3,14 @@
 
     let neuerFilm = {
         id: $filme.length,
-        titel: '',
+        title: '',
         beschreibung: '',
         genre: genres[0],
         bewertung: null
     };
 
     function resetNewFilmForm() {
-        neuerFilm.titel = "";
+        neuerFilm.title = "";
         neuerFilm.beschreibung = "";
         neuerFilm.genre = genres[0];
         neuerFilm.bewertung = null;
@@ -31,7 +31,7 @@
 <div>
     <h2>Neuen Film anlegen</h2>
     <form>
-        <input type="text" placeholder="Film Titel" bind:value={neuerFilm.titel}><br>
+        <input type="text" placeholder="film title" bind:value={neuerFilm.title}><br>
         <textarea placeholder="Beschreibung" bind:value={neuerFilm.beschreibung}></textarea><br>
         <select bind:value={neuerFilm.genre}>
             {#each genres as genre}

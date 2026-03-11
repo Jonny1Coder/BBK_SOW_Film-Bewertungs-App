@@ -3,7 +3,7 @@
 </script>
 
 <div>
-    <h3>{film.titel} ({film.genre})</h3>
+    <h3>{film.title} ({film.genre})</h3>
     <span>
           {#each Array(film.bewertung) as _}
             ⭐
@@ -13,5 +13,10 @@
 </div>
 
 <style>
-
+    div {
+        border: 1px solid black;
+        padding: 10px;
+        margin: 10px;
+        width: 20em;
+    }
 </style>
