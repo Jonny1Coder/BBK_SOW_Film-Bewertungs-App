@@ -1,13 +1,2 @@
-<script>
-
-</script>
-
-<main>
-    <h1>Willkommen</h1>
-    <a href="/filme">Alle Filme</a>
-    <a href="/cart">Warenkorb</a>
-</main>
-
-<style>
-
-</style>
+<h1>Welcome to SvelteKit</h1>
+<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
