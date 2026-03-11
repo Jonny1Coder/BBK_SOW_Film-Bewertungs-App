@@ -261,3 +261,58 @@ myStore.update(old => old + 1);
 ```javascript
 export const doubled = derived(count, $count => $count * 2);
 ```
+## 🎬 Projekt-Aufgabe: Film-Bewertungs-App - Teil 5 (40 Minuten)
+
+**Weiterführung aus Kurs 06**
+
+Wandle die Film-App in eine Multi-Page-Anwendung um:
+
+### Neue Struktur mit SvelteKit:
+
+```
+src/routes/
+├── +layout.svelte (Nav, Footer)
+├── +page.svelte (Home/Übersicht)
+├── filme/
+│   └── +page.svelte (Film-Liste)
+└── cart/
+    └── +page.svelte (Warenkorb/Merkliste)
+```
+
+### Seiten-Inhalte:
+
+**1. Home (+page.svelte)**:
+- Willkommens-Text
+- Links zu "Alle Filme" und "Warenkorb"
+
+**2. filme/+page.svelte**:
+- Liste aller Filme (Grid-Layout)
+- Jeder Film hat einen "Zum Warenkorb hinzufügen" Button
+
+**3. cart/+page.svelte**:
+- Liste der Filme im Warenkorb (aus einem Store)
+
+**4. Navigation (+layout.svelte)**:
+```html
+<nav>
+  <a href="/">Home</a>
+  <a href="/filme">Filme</a>
+  <a href="/cart">Warenkorb</a>
+</nav>
+```
+
+**Erwartetes Ergebnis**:
+- Multi-Page-App mit Navigation
+- Jede Seite hat eigene URL
+- Browser Back/Forward funktioniert
+
+**Weiterführung**: In Kurs 09 (API Integration) werden wir echte Backend-Daten nutzen!
+
+---
+
+## Tipps
+
+**SvelteKit File-based Routing**:
+- `+page.svelte` = Seite
+- `+layout.svelte` = Layout (umgibt mehrere Seiten)
+
