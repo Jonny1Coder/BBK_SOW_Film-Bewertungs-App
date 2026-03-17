@@ -1,6 +1,8 @@
 <script>
     import { cart } from "$lib/stores/cartStore";
     export let film;
+
+    $: count = $cart.find(f => f.id === film.id)?.count || 0;
 </script>
 
 <div>
@@ -11,7 +13,8 @@
           {/each}
         </span>
     <p>{film.beschreibung}</p>
-    <button on:click={() => cart.add(film.id) }>Zum Warenkorb hinzufügen</button>
+    <span>{ count }</span>
+    <button on:click={() => cart.remove(film.id) }>entfernen</button>
 </div>
 
 <style>
