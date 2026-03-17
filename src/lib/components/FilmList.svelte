@@ -9,7 +9,7 @@
     }
 </script>
 
-<div id="filme">
+<div class="filme">
     {#each films as film}
         <FilmCard {film} />
     {/each}
@@ -17,5 +17,9 @@
 <button on:click={ () => clearFilm()}>Alle Löschen</button>
 
 <style>
-
+    .filme{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
 </style>

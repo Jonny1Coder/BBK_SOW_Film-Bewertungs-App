@@ -1,8 +1,12 @@
 <script>
-    import Nav from "../lib/components/Layout/Nav.svelte";
+    import FilmForm from "$lib/components/FilmForm.svelte";
 </script>
-<Nav />
+
 <main>
     <h1>Willkommen</h1>
+    <FilmForm />
 </main>
 
+<style>
+
+</style>
