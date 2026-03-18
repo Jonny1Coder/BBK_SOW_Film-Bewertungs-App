@@ -1,6 +1,6 @@
 <script>
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.webp';
     import Nav from "$lib/components/Layout/Nav.svelte";
     import { filme } from '$lib/stores/filmStore.js';
     import { cart } from '$lib/stores/cartStore.js';
@@ -80,5 +80,8 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
-<Nav />
-{@render children()}
+<Nav lastUpdate="{lastUpdate}"/>
+<main class="prose max-w-screen max-h-screen">
+    {@render children()}
+</main>
+

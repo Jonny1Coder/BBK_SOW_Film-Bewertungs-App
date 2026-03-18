@@ -2,10 +2,10 @@
     import FilmForm from "$lib/components/FilmForm.svelte";
 </script>
 
-<main>
-    <h1>Willkommen</h1>
+<div class="w-full flex flex-col items-center">
+    <h1 class="">Willkommen</h1>
     <FilmForm />
-</main>
+</div>
 
 <style>
 

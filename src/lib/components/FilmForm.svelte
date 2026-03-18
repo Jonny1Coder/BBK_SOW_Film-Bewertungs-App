@@ -30,23 +30,19 @@
 
 <div>
     <h2>Neuen Film anlegen</h2>
-    <form>
-        <input type="text" placeholder="film title" bind:value={neuerFilm.title}><br>
-        <textarea placeholder="Beschreibung" bind:value={neuerFilm.beschreibung}></textarea><br>
+    <form class="flex flex-col gap-3">
+        <input type="text" placeholder="film title" bind:value={neuerFilm.title}>
+        <textarea placeholder="Beschreibung" bind:value={neuerFilm.beschreibung}></textarea>
         <select bind:value={neuerFilm.genre}>
             {#each genres as genre}
                 <option value="{genre}">{genre}</option>
             {/each}
-        </select><br>
-        <input type="number" placeholder="Bewertung (1-10)" bind:value={neuerFilm.bewertung}><br>
+        </select>
+        <input type="number" placeholder="Bewertung (1-10)" bind:value={neuerFilm.bewertung}>
         <button on:click|preventDefault={addFilm}>Film hinzufügen</button>
     </form>
 </div>
 
 <style>
-    textarea,input,select,button{
-        width: 15em;
-        margin: 0;
-        padding: 0;
-    }
+
 </style>

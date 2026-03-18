@@ -26,7 +26,7 @@
 <main>
     <h1 class="text-2xl">Alle Filme</h1>
 
-    <nav>
+    <nav class="flex gap-2">
         <button class:active={selectedGenre === "Alle"} on:click={() => setActive("Alle")}>Alle</button>
         {#each genres as genre}
             <button class:active={selectedGenre === genre} on:click={() => setActive(genre)}>{genre}</button>
@@ -46,17 +46,7 @@
 </main>
 
 <style>
-    nav{
-        display: flex;
-        gap: 1rem;
-        margin: 0.5em;
-    }
-    button,
-    select{
-        border: solid;
-        border-radius: 1em;
-    }
-    nav button:hover{
-        cursor: pointer;
+    button{
+        @apply flex-1;
     }
 </style>
