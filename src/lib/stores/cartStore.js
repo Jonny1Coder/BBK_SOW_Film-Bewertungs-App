@@ -20,6 +20,7 @@ function createCartStore() {
             }
             return shoppingcart;
         }),
+        set,
 
         remove: (num) => update(shoppingcart => shoppingcart.filter(n => n.id !== num)),
 
