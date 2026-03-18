@@ -10,7 +10,6 @@ function createCartStore() {
             if (shoppingcart.some(item => item.id === num)) {
                 shoppingcart = shoppingcart.map(n => {
                     if(n.id === num){
-                        console.log(n.count);
                         n.count = n.count + 1;
                         return n;
                     }
@@ -22,7 +21,16 @@ function createCartStore() {
             return shoppingcart;
         }),
 
-        remove: (num) => update(shoppingcart => shoppingcart.filter(n => n !== num)),
+        remove: (num) => update(shoppingcart => shoppingcart.filter(n => n.id !== num)),
+
+        editCount: (num, inputCount) => update(shoppingcart => {
+            if (num === undefined) return shoppingcart;
+            const nextCount = Number(inputCount);
+            if (shoppingcart.some(item => item.id === num)) {
+                return shoppingcart.map(n => n.id === num ? { ...n, count: nextCount } : n);
+            }
+            return [...shoppingcart, { id: num, count: nextCount }];
+        }),
 
         reset: () => set([])
     };
